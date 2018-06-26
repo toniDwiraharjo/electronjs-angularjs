@@ -4,7 +4,7 @@ angular.module('myApp')
             addTabs: '&'
         },
         controller: class myDatasets {
-            constructor($scope) {
+            constructor($scope, app, Menu, dialog) {
                 this.scope = $scope;
 
                 this.scope.tambah = () => {
@@ -13,6 +13,52 @@ angular.module('myApp')
                         tab: {
                             title: 'testing',
                             content: 'plot.html'
+                        }
+                    });
+                }
+
+                setupMenu();
+
+                // kondisi awal langsung buka dialog open file nc
+                dialogOpenFileNc();
+                
+                function setupMenu() {
+                    const menuTemplate = [
+                        {
+                            label: 'File',
+                            submenu: [
+                                {
+                                    label: 'Open File NetCDF4',
+                                    click() {
+                                        // buka dialog
+                                        dialogOpenFileNc();
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            role: 'help',
+                            submenu: [
+                                {
+                                    label: 'Learn More',
+                                    click() { }
+                                }
+                            ]
+                        }
+                    ];
+                    app.setApplicationMenu(Menu.buildFromTemplate(menuTemplate));
+                }
+
+                function dialogOpenFileNc() {
+                    const dialogConfig = {
+                        title: 'Open File NetCDF4',
+                        filters: [
+                            { name: 'NetCDF4', extensions: ['nc'] }
+                        ]
+                    };
+                    dialog.showOpenDialog(dialogConfig, (filePath) => {
+                        if (filePath) {
+                            console.log('berhasil');
                         }
                     });
                 }
