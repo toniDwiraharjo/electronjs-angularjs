@@ -27,13 +27,14 @@
     </style>
     <script src="../node_modules/angular/angular.js"></script>
     <script src="../node_modules/draggabilly/dist/draggabilly.pkgd.min.js"></script>
-    <script src="./js/chrome-tabs.js"></script>
+    <!-- <script src="./js/chrome-tabs.js"></script> -->
 </head>
 
 <body ng-app="myApp">
     <my-tabs></my-tabs>
 
     <script>
+        window.ChromeTabs = require('./js/chrome-tabs.js');
         angular.module('myApp', [])
 
             .component('myDatasets', {
