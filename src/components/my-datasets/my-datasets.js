@@ -7,12 +7,12 @@ angular.module('myApp')
             constructor($scope, app, Menu, dialog) {
                 this.scope = $scope;
 
-                this.scope.tambah = () => {
+                this.scope.tambah = (tab) => {
                     console.log('alloha bos');
                     this.addTabs({
                         tab: {
-                            title: 'testing',
-                            content: 'plot.html'
+                            title: tab.title,
+                            content: tab.content
                         }
                     });
                 }
@@ -20,7 +20,7 @@ angular.module('myApp')
                 setupMenu();
 
                 // kondisi awal langsung buka dialog open file nc
-                dialogOpenFileNc();
+                // dialogOpenFileNc();
                 
                 function setupMenu() {
                     const menuTemplate = [

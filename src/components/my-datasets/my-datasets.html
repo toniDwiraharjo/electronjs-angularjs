@@ -1,4 +1,9 @@
 <div style="padding: 0px 20px;">
-    <h2 style="margin: 10px 0;">Dataset</h2>
-    <button ng-click="tambah()">tambah</button>
+    <h2 style="margin: 10px 0;">Datasets</h2>
+    title:
+    <input type="text" ng-model="title">
+    <br> content:
+    <input type="text" ng-model="content">
+    <br>
+    <button ng-click="tambah({title: title, content: content})">tambah</button>
 </div>
