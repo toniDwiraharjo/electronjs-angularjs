@@ -65,22 +65,39 @@ angular.module('myApp')
                     }
                 });
 
+                var markers = [],
+                    markerIdCount = -1;
                 this.scope.addMarker = (latlng) => {
-                    L.marker(latlng).addTo(this.map)
-                        .bindPopup(toMarkerPopup(latlng))
-                        .openPopup();
+                    markerIdCount++;
+                    markers.push({
+                        marker: new L.marker(latlng).bindPopup(toMarkerPopup(latlng)).addTo(this.map).openPopup(),
+                        id: markerIdCount
+                    });
 
                     function toMarkerPopup(latlng) {
                         var popupTemplate = `
                             <div>
                                 <h4>Data</h4>
                                 ${angular.toJson(latlng)}
+                                <br>
+                                id ${markerIdCount}, kedepannya marker dihapus oleh tab
+                                <br>
+                                <button ng-click="removeMarker(${markerIdCount})">hapus marker</button>
                             </div>
                             `;
                         return $compile(popupTemplate)($scope)[0];
                     }
                 };
-                
+
+                this.scope.removeMarker = (idToRemove) => {
+                    markers.forEach(({ marker, id }) => {
+                        if (id === idToRemove) {
+                            this.map.removeLayer(marker);
+                            console.log('marker telah di hapus');
+                        }
+                    });
+                };
+
             }
         },
         templateUrl: './components/my-map/my-map.html'
