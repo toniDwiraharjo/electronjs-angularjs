@@ -1,11 +1,8 @@
+<my-map></my-map>
+
 <button class="w3-button w3-round w3-white w3-border" ng-style="btnModal" ng-click="modalContainer.display = 'block'">
     Lihat Modal
 </button>
-<button class="w3-button w3-round w3-white w3-border" ng-style="btnGrafik" ng-click="showHideGrafik()">Lihat Grafik</button>
-
-<div ng-style="grafikContainer">
-    <grafik-container></grafik-container>
-</div>
 
 <!-- harus paling bawah karena z index paling besar -->
 <div class="w3-modal" ng-style="modalContainer">
@@ -31,5 +28,3 @@
         </div>
     </div>
 </div>
-
-<my-map></my-map>
