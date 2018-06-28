@@ -47,7 +47,7 @@ angular.module('myApp')
 
                 // map event click
                 this.map.on('click', ({ latlng }) => {
-                    L.popup()
+                    var popup = L.popup()
                         .setLatLng(latlng)
                         .setContent(toPopupContent(latlng))
                         .openOn(this.map);
@@ -58,17 +58,29 @@ angular.module('myApp')
                             <h4>Data</h4>
                             ${angular.toJson(latlng)}
                             <br>
-                            <button ng-click='lihatGrafik(${angular.toJson(latlng)})'>tambah tab</button>
+                            <button ng-click='addMarker(${angular.toJson(latlng)})'>tambah marker</button>
                         </div>
                         `;
                         return $compile(popupTemplate)($scope)[0];
                     }
                 });
 
-                // testing
-                this.scope.lihatGrafik = (latlng) => {
-                    console.log(latlng);
-                }
+                this.scope.addMarker = (latlng) => {
+                    L.marker(latlng).addTo(this.map)
+                        .bindPopup(toMarkerPopup(latlng))
+                        .openPopup();
+
+                    function toMarkerPopup(latlng) {
+                        var popupTemplate = `
+                            <div>
+                                <h4>Data</h4>
+                                ${angular.toJson(latlng)}
+                            </div>
+                            `;
+                        return $compile(popupTemplate)($scope)[0];
+                    }
+                };
+                
             }
         },
         templateUrl: './components/my-map/my-map.html'
