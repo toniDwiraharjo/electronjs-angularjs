@@ -65,6 +65,7 @@ angular.module('myApp')
                     }
                 });
 
+                // fungsi marker
                 var markers = [],
                     markerIdCount = -1;
                 this.scope.addMarker = (latlng) => {
