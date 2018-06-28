@@ -1,21 +1,18 @@
-<style>
-    .nav-button {
-        z-index: 99999999999;
-        position: absolute;
-        top: 10px;
-        right: 10px;
-    }
-</style>
+<button class="w3-button w3-round w3-white w3-border" ng-style="btnModal" ng-click="modalContainer.display = 'block'">
+    Lihat Modal
+</button>
+<button class="w3-button w3-round w3-white w3-border" ng-style="btnGrafik" ng-click="showHideGrafik()">Lihat Grafik</button>
 
-<button class="nav-button w3-button w3-round w3-white w3-border" onclick="document.getElementById('id01').style.display='block'">Lihat Modal</button>
+<div ng-style="grafikContainer">
+    <grafik-container></grafik-container>
+</div>
 
-<div id="id01" class="w3-modal" style="z-index: 99999999999999;">
+<!-- harus paling bawah karena z index paling besar -->
+<div class="w3-modal" ng-style="modalContainer">
     <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px">
-
         <div class="w3-center">
             <br>
-            <span onclick="document.getElementById('id01').style.display='none'" class="w3-button w3-xlarge w3-hover-red w3-display-topright"
-                title="Close Modal">&times;</span>
+            <span class="w3-button w3-xlarge w3-hover-red w3-display-topright" title="Close Modal" ng-click="modalContainer.display = 'none'">&times;</span>
             <h3>Dataset</h3>
         </div>
 
@@ -32,7 +29,6 @@
                 <button class="w3-button w3-block w3-light-grey w3-section w3-padding" type="submit">Login</button>
             </div>
         </div>
-
     </div>
 </div>
 
