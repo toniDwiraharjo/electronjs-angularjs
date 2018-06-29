@@ -2,7 +2,8 @@ angular.module('myApp')
     .component('grafikContainer', {
         bindings: {
             markers: '<',
-            markerIdCount: '<'
+            markerIdCount: '<',
+            removeMarker: '&'
         },
         controller: class grafikContainer {
             constructor() {
@@ -15,16 +16,21 @@ angular.module('myApp')
                     maxWidth: 243
                 });
 
+                el.addEventListener('tabRemove', ({ detail }) => {
+                    var id = Number(detail.tabEl.id);
+                    this.removeMarker({ idToRemove: id });
+                    console.log('Tab removed', id);
+                });
+
                 console.log('grafik-container berhasil di load');
             }
 
             $onChanges({ markerIdCount }) {
                 if (markerIdCount.previousValue.constructor.name !== 'UNINITIALIZED_VALUE') {
-                    console.log(markerIdCount.previousValue)
                     var lastIdMarker = markerIdCount.previousValue;
 
                     this.chromeTabs.addTab({
-                        title: 'hallo sayangku',
+                        title: `${lastIdMarker}-tab baru`,
                         id: lastIdMarker
                     });
                 }

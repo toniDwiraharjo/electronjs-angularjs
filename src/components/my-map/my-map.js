@@ -94,18 +94,20 @@ angular.module('myApp')
                                 <br>
                                 id ${markerId}, kedepannya marker dihapus oleh tab
                                 <br>
-                                <button ng-click="removeMarker(${markerId})">hapus marker</button>
+                                <!--  
+                                    <button ng-click="$ctrl.removeMarker(${markerId})">hapus marker</button>
+                                -->
                             </div>
                             `;
                         return $compile(popupTemplate)($scope)[0];
                     }
                 };
 
-                this.scope.removeMarker = (idToRemove) => {
+                this.removeMarker = (idToRemove) => {
                     this.markers.forEach(({ marker, id }) => {
                         if (id === idToRemove) {
                             this.map.removeLayer(marker);
-                            console.log('marker telah di hapus');
+                            console.log(`marker id-${id} telah di hapus`);
                         }
                     });
                 };
