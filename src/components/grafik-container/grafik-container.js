@@ -16,6 +16,9 @@ angular.module('myApp')
                     maxWidth: 243
                 });
 
+                // remove tab default
+                this.chromeTabs.removeTab(el.querySelector('.chrome-tab-current'))
+
                 el.addEventListener('tabRemove', ({ detail }) => {
                     var id = Number(detail.tabEl.id);
                     this.removeMarker({ idToRemove: id });
