@@ -1,5 +1,9 @@
 angular.module('myApp')
     .component('grafikContainer', {
+        bindings: {
+            markers: '<',
+            markerIdCount: '<'
+        },
         controller: class grafikContainer {
             constructor() {
                 this.chromeTabs = new ChromeTabs();
@@ -12,6 +16,18 @@ angular.module('myApp')
                 });
 
                 console.log('grafik-container berhasil di load');
+            }
+
+            $onChanges({ markerIdCount }) {
+                if (markerIdCount.previousValue.constructor.name !== 'UNINITIALIZED_VALUE') {
+                    console.log(markerIdCount.previousValue)
+                    var lastIdMarker = markerIdCount.previousValue;
+
+                    this.chromeTabs.addTab({
+                        title: 'hallo sayangku',
+                        id: lastIdMarker
+                    });
+                }
             }
         },
         template: `

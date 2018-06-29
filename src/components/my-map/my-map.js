@@ -66,14 +66,25 @@ angular.module('myApp')
                 });
 
                 // fungsi marker
-                var markers = [],
-                    markerIdCount = -1;
+                this.markers = [];
+                this.markerIdCount = 0;
                 this.scope.addMarker = (latlng) => {
-                    markerIdCount++;
-                    markers.push({
+                    var markerId = this.markerIdCount;
+                    this.markers.push({
                         marker: new L.marker(latlng).bindPopup(toMarkerPopup(latlng)).addTo(this.map).openPopup(),
-                        id: markerIdCount
+                        id: markerId
                     });
+
+                    // buka grafik terlebih dahulu
+                    // baru increment markerIdCount
+                    // supaya ga error di grafik-container
+                    if (this.scope.grafikContainer.display !== 'block') {
+                        this.scope.btnGrafik.bottom = `calc(${this.scope.grafikContainer.height} + ${this.scope.btnGrafik.bottom})`;
+                        this.scope.grafikContainer.top = `calc(${this.scope.grafikContainer.top} - ${this.scope.grafikContainer.height})`;
+                        this.scope.grafikContainer.display = 'block';
+                    }
+
+                    this.markerIdCount++;
 
                     function toMarkerPopup(latlng) {
                         var popupTemplate = `
@@ -81,9 +92,9 @@ angular.module('myApp')
                                 <h4>Data</h4>
                                 ${angular.toJson(latlng)}
                                 <br>
-                                id ${markerIdCount}, kedepannya marker dihapus oleh tab
+                                id ${markerId}, kedepannya marker dihapus oleh tab
                                 <br>
-                                <button ng-click="removeMarker(${markerIdCount})">hapus marker</button>
+                                <button ng-click="removeMarker(${markerId})">hapus marker</button>
                             </div>
                             `;
                         return $compile(popupTemplate)($scope)[0];
@@ -91,7 +102,7 @@ angular.module('myApp')
                 };
 
                 this.scope.removeMarker = (idToRemove) => {
-                    markers.forEach(({ marker, id }) => {
+                    this.markers.forEach(({ marker, id }) => {
                         if (id === idToRemove) {
                             this.map.removeLayer(marker);
                             console.log('marker telah di hapus');
