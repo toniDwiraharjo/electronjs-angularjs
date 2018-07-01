@@ -23,6 +23,15 @@ angular.module('myApp')
                 el.addEventListener('tabRemove', ({ detail }) => {
                     var id = Number(detail.tabEl.id);
                     this.removeMarker({ idToRemove: id });
+
+                    // hide graph current id
+                    angular.forEach(this.scope.graphs, (graph) => {
+                        if (graph.id === id) {
+                            graph.show = false;
+                        }
+                    });
+                    scopeApply();
+
                     console.log('Tab removed', id);
                 });
 
@@ -59,7 +68,7 @@ angular.module('myApp')
                 };
                 this.scope.graphs.push(graph);
 
-                // add tab terakhir agar tidak error di event
+                // add tab terakhir agar tidak error di event el di container
                 this.chromeTabs.addTab({
                     title: tab.title,
                     id: tab.id
