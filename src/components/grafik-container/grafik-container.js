@@ -6,9 +6,10 @@ angular.module('myApp')
             removeMarker: '&'
         },
         controller: class grafikContainer {
-            constructor() {
-                this.chromeTabs = new ChromeTabs();
+            constructor($scope) {
+                this.scope = $scope;
 
+                this.chromeTabs = new ChromeTabs();
                 const el = document.querySelector('.chrome-tabs');
                 this.chromeTabs.init(el, {
                     tabOverlapDistance: 14,
@@ -25,14 +26,51 @@ angular.module('myApp')
                     console.log('Tab removed', id);
                 });
 
+                // inisialisasi graphs
+                this.scope.graphs = [];
+                el.addEventListener('activeTabChange', ({ detail }) => {
+                    var id = Number(detail.tabEl.id);
+
+                    angular.forEach(this.scope.graphs, (graph) => {
+                        if (graph.id === id) {
+                            graph.show = true;
+                        } else {
+                            graph.show = false;
+                        }
+                    });
+                    scopeApply();
+
+                    console.log('Active tab changed', id)
+                });
+
+                function scopeApply() {
+                    if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
+                        $scope.$apply();
+                    }
+                }
                 console.log('grafik-container berhasil di load');
+            }
+
+            addTab(tab) {
+                var graph = {
+                    id: tab.id,
+                    divId: `graph-${tab.id}`,
+                    show: false
+                };
+                this.scope.graphs.push(graph);
+
+                // add tab terakhir agar tidak error di event
+                this.chromeTabs.addTab({
+                    title: tab.title,
+                    id: tab.id
+                });
             }
 
             $onChanges({ markerIdCount }) {
                 if (markerIdCount.previousValue.constructor.name !== 'UNINITIALIZED_VALUE') {
                     var lastIdMarker = markerIdCount.previousValue;
 
-                    this.chromeTabs.addTab({
+                    this.addTab({
                         title: `${lastIdMarker}-tab baru`,
                         id: lastIdMarker
                     });
@@ -76,17 +114,8 @@ angular.module('myApp')
                 </div>
                 <div class="chrome-tabs-bottom-bar"></div>
             </div>
-            <div id="contents">
-                <div ng-show="datasetContentShow" style="width: 100%; height: 100%;">
-                    <!--  
-                            <button ng-click="$ctrl.addTabs({title: 'baru', content: 'plot.html'})">tambah</button>
-                            <br>
-                        -->
-                    <my-datasets add-tabs="$ctrl.addTabs(tab)"></my-datasets>
-                </div>
-                <div ng-repeat="tab in tabs track by $index" ng-show="(!datasetContentShow) && tab.show" style="width: 100%; height: 100%;">
-                    <iframe ng-src="{{tab.content}}" frameborder="0" style="width: 100%; height: 100%;"></iframe>
-                </div>
+            <div style="background-color: rgb(242, 242, 242); position: absolute; height: calc(100% - 55px); width: 100%;">
+                <div ng-repeat="graph in graphs" ng-attr-id="{{graph.divId}}" ng-show="graph.show" style="width: 100%; height: 100%;">hallo id-{{graph.id}}</div>
             </div>
         </div>
         `
