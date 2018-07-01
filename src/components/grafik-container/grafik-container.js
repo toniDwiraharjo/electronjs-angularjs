@@ -87,7 +87,7 @@ angular.module('myApp')
                     Highcharts.chart(divId, {
 
                         title: {
-                            text: `ini id ke-${divIdF}`
+                            text: `ini id ke-${divId}`
                         },
 
                         subtitle: {
