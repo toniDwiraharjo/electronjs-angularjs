@@ -17,6 +17,13 @@ angular.module('myApp')
                 };
 
                 console.log('nav-map berhasil di load');
+
+                this.clearMapTrigger = false;
+                this.scope.clear = () => {
+                    // butuh ada perubahan saja karena one way data bindings
+                    // agar mentrigger fungsi onChanges di map
+                    this.clearMapTrigger = !this.clearMapTrigger;
+                };
             }
         },
         templateUrl: './components/nav-map/nav-map.html'

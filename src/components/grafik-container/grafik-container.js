@@ -4,6 +4,7 @@ angular.module('myApp')
             markers: '<',
             markerIdCount: '<',
             idTabWantToOpen: '<',
+            clearMapTrigger: '<',
             removeMarker: '&',
             openPopupMarkerById: '&',
         },
@@ -182,6 +183,18 @@ angular.module('myApp')
                 if (e.idTabWantToOpen) {
                     var idTabWantToOpen = e.idTabWantToOpen.currentValue;
                     this.openTab(idTabWantToOpen);
+                }
+
+                // if e clearMapTrigger
+                if (e.clearMapTrigger) {
+                    if (e.clearMapTrigger.previousValue.constructor.name !== 'UNINITIALIZED_VALUE') {
+                        console.log('clear semua tab dan markernya', e);
+                        
+                        // trik instant clear tab grafik dan marker
+                        while (document.querySelector('.chrome-tab-current')) {
+                            this.chromeTabs.removeTab(document.querySelector('.chrome-tab-current'));
+                        }
+                    }
                 }
             }
         },

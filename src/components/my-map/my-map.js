@@ -1,5 +1,8 @@
 angular.module('myApp')
     .component('myMap', {
+        bindings: {
+            clearMapTrigger: '<'
+        },
         controller: class myMap {
             constructor($scope, $compile) {
                 this.scope = $scope;
@@ -116,10 +119,6 @@ angular.module('myApp')
                     this.idTabWantToOpen = id;
                     console.log('testing', id);
                 };
-
-                // testing openPopupMarkerById
-                // window.openPopupMarkerById = this.openPopupMarkerById;
-                // window.markers = this.markers
             }
 
             removeMarker(idToRemove) {
@@ -138,6 +137,14 @@ angular.module('myApp')
                     }
                 });
             }
+
+            // $onChanges(e) {
+            //     if (e.clearMapTrigger) {
+            //         if (e.clearMapTrigger.previousValue.constructor.name !== 'UNINITIALIZED_VALUE') {
+
+            //         }
+            //     }
+            // }
         },
         templateUrl: './components/my-map/my-map.html'
     })

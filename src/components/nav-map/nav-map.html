@@ -1,4 +1,4 @@
-<my-map></my-map>
+<my-map clear-map-trigger="$ctrl.clearMapTrigger"></my-map>
 
 <button class="w3-button w3-round w3-white w3-border" ng-style="btnModal" ng-click="modalContainer.display = 'block'">
     Lihat Modal
@@ -24,6 +24,7 @@
                 </label>
                 <input class="w3-input w3-border" type="password" placeholder="Enter Password" name="psw" required>
                 <button class="w3-button w3-block w3-light-grey w3-section w3-padding" type="submit">Login</button>
+                <button class="w3-button w3-block w3-light-grey w3-section w3-padding" ng-click="clear()">Clear Map</button>
             </div>
         </div>
     </div>
