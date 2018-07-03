@@ -3,8 +3,9 @@ angular.module('myApp')
         bindings: {
             markers: '<',
             markerIdCount: '<',
+            idTabWantToOpen: '<',
             removeMarker: '&',
-            idTabWantToOpen: '<'
+            openPopupMarkerById: '&',
         },
         controller: class grafikContainer {
             constructor($scope, $timeout) {
@@ -50,6 +51,8 @@ angular.module('myApp')
                         }
                     });
                     scopeApply();
+
+                    this.openPopupMarkerById({ idToOpenPopup: id });
 
                     console.log('Active tab changed', id)
                 });

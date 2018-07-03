@@ -58,7 +58,7 @@ angular.module('myApp')
                             <h4>Data</h4>
                             ${angular.toJson(latlng)}
                             <br>
-                            <button ng-click='addMarker(${angular.toJson(latlng)})'>tambah marker</button>
+                            <button ng-click='addMarker(${angular.toJson(latlng)})'>tambah marker dan lihat grafik</button>
                         </div>
                         `;
                         return $compile(popupTemplate)($scope)[0];
@@ -100,7 +100,7 @@ angular.module('myApp')
                                 <!--  
                                     <button ng-click="$ctrl.removeMarker(${markerId})">hapus marker</button>
                                 -->
-                                <button ng-click="openTab(${markerId})">buka tab grafik</button>
+                                <button ng-click="openTab(${markerId})">lihat grafik</button>
                             </div>
                             `;
                         return $compile(popupTemplate)($scope)[0];
@@ -116,6 +116,10 @@ angular.module('myApp')
                     this.idTabWantToOpen = id;
                     console.log('testing', id);
                 };
+
+                // testing openPopupMarkerById
+                // window.openPopupMarkerById = this.openPopupMarkerById;
+                // window.markers = this.markers
             }
 
             removeMarker(idToRemove) {
@@ -123,6 +127,14 @@ angular.module('myApp')
                     if (id === idToRemove) {
                         this.map.removeLayer(marker);
                         console.log(`marker id-${id} telah di hapus`);
+                    }
+                });
+            }
+
+            openPopupMarkerById(idToOpenPopup) {
+                this.markers.forEach(({ marker, id }) => {
+                    if (id === idToOpenPopup) {
+                        marker.openPopup();
                     }
                 });
             }
