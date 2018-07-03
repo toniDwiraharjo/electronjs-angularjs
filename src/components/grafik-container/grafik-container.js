@@ -3,7 +3,8 @@ angular.module('myApp')
         bindings: {
             markers: '<',
             markerIdCount: '<',
-            removeMarker: '&'
+            removeMarker: '&',
+            idTabWantToOpen: '<'
         },
         controller: class grafikContainer {
             constructor($scope, $timeout) {
@@ -59,6 +60,17 @@ angular.module('myApp')
                     }
                 }
                 console.log('grafik-container berhasil di load');
+            }
+
+            openTab(id) {
+                console.log('tab yang akan diaktifkan', id);
+
+                var tabEl = document.getElementById(`${id}`);
+                // jika tabEl tidak sama dengan null
+                if (tabEl) {
+                    tabEl.click();
+                    console.log('aktif tab el id-', id);
+                }
             }
 
             addTab(tab) {
@@ -150,14 +162,23 @@ angular.module('myApp')
                 }
             }
 
-            $onChanges({ markerIdCount }) {
-                if (markerIdCount.previousValue.constructor.name !== 'UNINITIALIZED_VALUE') {
-                    var lastIdMarker = markerIdCount.previousValue;
+            $onChanges(e) {
+                // if e has markerIdCount
+                if (e.markerIdCount) {
+                    if (e.markerIdCount.previousValue.constructor.name !== 'UNINITIALIZED_VALUE') {
+                        var lastIdMarker = e.markerIdCount.previousValue;
 
-                    this.addTab({
-                        title: `${lastIdMarker}-tab baru`,
-                        id: lastIdMarker
-                    });
+                        this.addTab({
+                            title: `${lastIdMarker}-tab baru`,
+                            id: lastIdMarker
+                        });
+                    }
+                }
+
+                // if e has idTabWantToOpen
+                if (e.idTabWantToOpen) {
+                    var idTabWantToOpen = e.idTabWantToOpen.currentValue;
+                    this.openTab(idTabWantToOpen);
                 }
             }
         },

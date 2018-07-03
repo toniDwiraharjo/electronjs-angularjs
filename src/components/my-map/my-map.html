@@ -12,5 +12,6 @@
 <button class="w3-button w3-round w3-white w3-border" ng-style="btnGrafik" ng-click="showHideGrafik()">Lihat Grafik</button>
 
 <div ng-style="grafikContainer">
-    <grafik-container markers="$ctrl.markers" marker-id-count="$ctrl.markerIdCount" remove-marker="$ctrl.removeMarker(idToRemove)"></grafik-container>
+    <grafik-container markers="$ctrl.markers" marker-id-count="$ctrl.markerIdCount" remove-marker="$ctrl.removeMarker(idToRemove)"
+        id-tab-want-to-open="$ctrl.idTabWantToOpen"></grafik-container>
 </div>

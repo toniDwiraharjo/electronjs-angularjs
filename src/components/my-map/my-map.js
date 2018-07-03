@@ -66,6 +66,13 @@ angular.module('myApp')
                 });
 
                 // fungsi marker
+                const tampilGrafikContainer = () => {
+                    if (this.scope.grafikContainer.display !== 'block') {
+                        this.scope.btnGrafik.bottom = `calc(${this.scope.grafikContainer.height} + ${this.scope.btnGrafik.bottom})`;
+                        this.scope.grafikContainer.top = `calc(${this.scope.grafikContainer.top} - ${this.scope.grafikContainer.height})`;
+                        this.scope.grafikContainer.display = 'block';
+                    }
+                }
                 this.markers = [];
                 this.markerIdCount = 0;
                 this.scope.addMarker = (latlng) => {
@@ -78,11 +85,7 @@ angular.module('myApp')
                     // buka grafik terlebih dahulu
                     // baru increment markerIdCount
                     // supaya ga error di grafik-container
-                    if (this.scope.grafikContainer.display !== 'block') {
-                        this.scope.btnGrafik.bottom = `calc(${this.scope.grafikContainer.height} + ${this.scope.btnGrafik.bottom})`;
-                        this.scope.grafikContainer.top = `calc(${this.scope.grafikContainer.top} - ${this.scope.grafikContainer.height})`;
-                        this.scope.grafikContainer.display = 'block';
-                    }
+                    tampilGrafikContainer();
 
                     this.markerIdCount++;
 
@@ -97,21 +100,31 @@ angular.module('myApp')
                                 <!--  
                                     <button ng-click="$ctrl.removeMarker(${markerId})">hapus marker</button>
                                 -->
+                                <button ng-click="openTab(${markerId})">buka tab grafik</button>
                             </div>
                             `;
                         return $compile(popupTemplate)($scope)[0];
                     }
                 };
 
-                this.removeMarker = (idToRemove) => {
-                    this.markers.forEach(({ marker, id }) => {
-                        if (id === idToRemove) {
-                            this.map.removeLayer(marker);
-                            console.log(`marker id-${id} telah di hapus`);
-                        }
-                    });
-                };
+                this.idTabWantToOpen = null;
+                this.scope.openTab = (id) => {
+                    // tampilkan terlebih dahulu grafiknya
+                    tampilGrafikContainer();
 
+                    // baru ubah nilai idTabWantToOpen
+                    this.idTabWantToOpen = id;
+                    console.log('testing', id);
+                };
+            }
+
+            removeMarker(idToRemove) {
+                this.markers.forEach(({ marker, id }) => {
+                    if (id === idToRemove) {
+                        this.map.removeLayer(marker);
+                        console.log(`marker id-${id} telah di hapus`);
+                    }
+                });
             }
         },
         templateUrl: './components/my-map/my-map.html'
